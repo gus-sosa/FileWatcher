@@ -49,8 +49,20 @@ namespace FileWatcher
         internal bool Stop()
         {
             //TODO: LOG: Stopping service
-            throw new NotImplementedException();
+            try
+            {
+                foreach (var fw in FileSystemWatcher)
+                {
+                    fw.EnableRaisingEvents = false;
+                    fw.Dispose();
+                }
+            }
+            catch
+            {
+                return false;
+            }
             //TODO: LOG: Service stopped
+            return true;
         }
 
         private void Renamed(object sender, RenamedEventArgs e) => NotifyChanges(Path.GetPathRoot(e.FullPath));
