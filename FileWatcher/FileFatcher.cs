@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace FileWatcher
 {
     internal class FileFatcher
     {
-        public FileFatcher(IEnumerable<string> folders)
+        public FileFatcher(IEnumerable<string> folders, ILogger logger)
         {
             //TODO: LOG: Building service and serialize list of folders
             folders = folders?.Where(f => Directory.Exists(f));

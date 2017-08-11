@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Topshelf;
@@ -7,15 +8,18 @@ namespace FileWatcher
 {
     class Program
     {
+        static ILogger logger;
         static void Main(string[] args)
         {
+            logger = LogManager.GetCurrentClassLogger();
+
             HostFactory.Run(x =>
             {
                 //TODO: LOG: Log whatever error the service throws
 
                 x.Service<FileFatcher>(s =>
                 {
-                    s.ConstructUsing(name => new FileFatcher(GetFolders()));
+                    s.ConstructUsing(name => new FileFatcher(GetFolders(), logger));
                     s.WhenStarted(fw => fw.Start());
                     s.WhenStopped(fw => fw.Stop());
                 });
