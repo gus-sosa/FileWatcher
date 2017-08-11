@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using Topshelf;
 
 namespace FileWatcher
@@ -13,9 +11,11 @@ namespace FileWatcher
         {
             HostFactory.Run(x =>
             {
+                //TODO: LOG: Log whatever error the service throws
+
                 x.Service<FileFatcher>(s =>
                 {
-                    s.ConstructUsing(name => new FileFatcher());
+                    s.ConstructUsing(name => new FileFatcher(GetFolders()));
                     s.WhenStarted(fw => fw.Start());
                     s.WhenStopped(fw => fw.Stop());
                 });
@@ -25,6 +25,36 @@ namespace FileWatcher
                 x.SetDisplayName("FileWatcher");
                 x.SetServiceName("FileWatcher");
             });
+        }
+
+        private static IEnumerable<string> GetFolders()
+        {
+            //TODO: LOG: Getting folders to watch
+
+            var list = new List<string>();
+            try
+            {
+                using (var file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "folders.config", FileMode.Open))
+                {
+                    //TODO: LOG: File opened
+                    using (var reader = new StreamReader(file))
+                    {
+                        while (true)
+                        {
+                            string folder = reader.ReadLine();
+                            if (string.IsNullOrEmpty(folder))
+                                break;
+                            list.Add(folder);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                //TODO: Log error
+            }
+
+            return list;
         }
     }
 }
