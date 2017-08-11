@@ -34,7 +34,11 @@ namespace FileWatcher
                     | NotifyFilters.Security | NotifyFilters.Size;
 
                 fw.Filter = "*.*";
-                fw.Changed += new FileSystemEventHandler(NotifyChanges);
+                var notifyChanges = new FileSystemEventHandler(NotifyChanges);
+                fw.Changed += notifyChanges;
+                fw.Deleted += notifyChanges;
+                fw.Renamed += Renamed; ;
+                fw.Changed += notifyChanges;
                 fw.EnableRaisingEvents = true;
 
                 FileSystemWatcher.Add(fw);
@@ -49,7 +53,11 @@ namespace FileWatcher
             //TODO: LOG: Service stopped
         }
 
-        private void NotifyChanges(object sender, FileSystemEventArgs e)
+        private void Renamed(object sender, RenamedEventArgs e) => NotifyChanges(Path.GetPathRoot(e.FullPath));
+
+        private void NotifyChanges(object sender, FileSystemEventArgs e) => NotifyChanges(Path.GetPathRoot(e.FullPath));
+
+        public void NotifyChanges(string folderdir)
         {
             //TODO: LOG: Log notification and path of the folder
             throw new NotImplementedException();
