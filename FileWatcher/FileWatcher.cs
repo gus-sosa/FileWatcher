@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace FileWatcher
 {
-    internal class FileFatcher
+    internal class FileWatcher
     {
-        public FileFatcher(IEnumerable<string> folders, ILogger logger)
+        public FileWatcher(IEnumerable<string> folders, ILogger logger)
         {
             //TODO: LOG: Building service and serialize list of folders
             folders = folders?.Where(f => Directory.Exists(f));

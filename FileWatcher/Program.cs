@@ -17,9 +17,9 @@ namespace FileWatcher
             {
                 //TODO: LOG: Log whatever error the service throws
 
-                x.Service<FileFatcher>(s =>
+                x.Service<FileWatcher>(s =>
                 {
-                    s.ConstructUsing(name => new FileFatcher(GetFolders(), logger));
+                    s.ConstructUsing(name => new FileWatcher(GetFolders(), logger));
                     s.WhenStarted(fw => fw.Start());
                     s.WhenStopped(fw => fw.Stop());
                 });
