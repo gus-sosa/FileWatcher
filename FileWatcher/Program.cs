@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace FileWatcher
         {
             HostFactory.Run(x =>
             {
+                //TODO: LOG: Log whatever error the service throws
+
                 x.Service<FileFatcher>(s =>
                 {
                     s.ConstructUsing(name => new FileFatcher(GetFolders()));
@@ -29,7 +32,32 @@ namespace FileWatcher
 
         private static IEnumerable<string> GetFolders()
         {
-            throw new NotImplementedException();
+            //TODO: LOG: Getting folders to watch
+
+            var list = new List<string>();
+            try
+            {
+                using (var file = new FileStream(Path.GetFullPath(".\folders.config"), FileMode.Open))
+                {
+                    //TODO: LOG: File opened
+                    using (var reader = new StreamReader(file))
+                    {
+                        while (true)
+                        {
+                            string folder = Console.ReadLine();
+                            if (string.IsNullOrEmpty(folder))
+                                break;
+                            list.Add(folder);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                //TODO: Log error
+            }
+
+            return list;
         }
     }
 }
