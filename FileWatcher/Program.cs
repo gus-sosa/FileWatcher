@@ -13,9 +13,17 @@ namespace FileWatcher
         {
             HostFactory.Run(x =>
             {
-                x.Service<FileFatcher>(fw =>
+                x.Service<FileFatcher>(s =>
                 {
+                    s.ConstructUsing(name => new FileFatcher());
+                    s.WhenStarted(fw => fw.Start());
+                    s.WhenStopped(fw => fw.Stop());
                 });
+                x.RunAsLocalSystem();
+
+                x.SetDescription("Program to watch file changes in a folder");
+                x.SetDisplayName("FileWatcher");
+                x.SetServiceName("FileWatcher");
             });
         }
     }
