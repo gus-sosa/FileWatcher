@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Topshelf;
 
 namespace FileWatcher
@@ -37,14 +34,14 @@ namespace FileWatcher
             var list = new List<string>();
             try
             {
-                using (var file = new FileStream(Path.GetFullPath(".\folders.config"), FileMode.Open))
+                using (var file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "folders.config", FileMode.Open))
                 {
                     //TODO: LOG: File opened
                     using (var reader = new StreamReader(file))
                     {
                         while (true)
                         {
-                            string folder = Console.ReadLine();
+                            string folder = reader.ReadLine();
                             if (string.IsNullOrEmpty(folder))
                                 break;
                             list.Add(folder);
