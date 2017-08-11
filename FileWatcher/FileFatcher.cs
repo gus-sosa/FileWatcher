@@ -52,10 +52,7 @@ namespace FileWatcher
             try
             {
                 foreach (var fw in FileSystemWatcher)
-                {
                     fw.EnableRaisingEvents = false;
-                    fw.Dispose();
-                }
             }
             catch
             {
