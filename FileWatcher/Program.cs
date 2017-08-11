@@ -15,7 +15,7 @@ namespace FileWatcher
             {
                 x.Service<FileFatcher>(s =>
                 {
-                    s.ConstructUsing(name => new FileFatcher());
+                    s.ConstructUsing(name => new FileFatcher(GetFolders()));
                     s.WhenStarted(fw => fw.Start());
                     s.WhenStopped(fw => fw.Stop());
                 });
@@ -25,6 +25,11 @@ namespace FileWatcher
                 x.SetDisplayName("FileWatcher");
                 x.SetServiceName("FileWatcher");
             });
+        }
+
+        private static IEnumerable<string> GetFolders()
+        {
+            throw new NotImplementedException();
         }
     }
 }
