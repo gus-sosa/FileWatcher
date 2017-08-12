@@ -11,20 +11,23 @@ namespace FileWatcher
         public FileWatcher(IEnumerable<string> folders, ILogger logger)
         {
             //TODO: LOG: Building service and serialize list of folders
+            Logger = logger;
+            logger.Info($"Building service with list of folders: {folders.Aggregate("", (acumulate, current) => $"{acumulate},{current}")}");
             folders = folders?.Where(f => Directory.Exists(f));
             if (folders == null || folders.Count() == 0)
                 throw new InvalidOperationException("There are no folders to watch");
 
             Folders = folders;
-            //TODO: LOG: Service builded successfully
+            logger.Info("Service built successfully");
         }
 
         internal IList<FileSystemWatcher> FileSystemWatcher { get; private set; } = new List<FileSystemWatcher>();
         internal IEnumerable<string> Folders { get; private set; }
+        internal ILogger Logger;
 
         public void Start()
         {
-            //TODO: LOG: Starting service
+            Logger.Info("Starting service");
             foreach (string folderDir in Folders)
             {
                 var fw = new FileSystemWatcher();
@@ -44,22 +47,23 @@ namespace FileWatcher
 
                 FileSystemWatcher.Add(fw);
             }
-            //TODO: LOG: Service started successfully
+            Logger.Info("Service started successfully");
         }
 
         internal bool Stop()
         {
-            //TODO: LOG: Stopping service
+            Logger.Info("Stopping service");
             try
             {
                 foreach (var fw in FileSystemWatcher)
                     fw.EnableRaisingEvents = false;
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error($"Error stopping service: {e}");
                 return false;
             }
-            //TODO: LOG: Service stopped
+            Logger.Info("Service stopped successfully");
             return true;
         }
 
@@ -69,7 +73,7 @@ namespace FileWatcher
 
         public void NotifyChanges(string folderdir)
         {
-            //TODO: LOG: Log notification and path of the folder
+            Logger.Info($"Notifying: {folderdir}");
             throw new NotImplementedException();
         }
     }
