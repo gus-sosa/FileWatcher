@@ -9,17 +9,16 @@ namespace FileWatcher
 {
     class Program
     {
-        static ILogger logger;
         static void Main(string[] args)
         {
-            logger = LogManager.GetCurrentClassLogger();
+            LoggingExtensions.Logging.Log.InitializeWith<LoggingExtensions.NLog.NLogLog>();
             try
             {
                 HostFactory.Run(x =>
                 {
                     x.Service<FileWatcher>(s =>
                     {
-                        s.ConstructUsing(name => new FileWatcher(GetFolders(), logger));
+                        s.ConstructUsing(name => new FileWatcher(GetFolders()));
                         s.WhenStarted(fw => fw.Start());
                         s.WhenStopped(fw => fw.Stop());
                     });
@@ -32,19 +31,19 @@ namespace FileWatcher
             }
             catch (Exception e)
             {
-                logger.Error(e);
+                LogManager.GetCurrentClassLogger().Error(e);
             }
         }
 
         private static IEnumerable<string> GetFolders()
         {
-            logger.Info("Getting folders to watch");
+            LogManager.GetCurrentClassLogger().Info("Getting folders to watch");
             var list = new List<string>();
             try
             {
                 using (var file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "folders.config", FileMode.Open))
                 {
-                    logger.Info("folders.config opened");
+                    LogManager.GetCurrentClassLogger().Info("folders.config opened");
                     using (var reader = new StreamReader(file))
                     {
                         while (true)
@@ -53,17 +52,17 @@ namespace FileWatcher
                             if (string.IsNullOrEmpty(folder))
                                 break;
                             list.Add(folder);
-                            logger.Info($"Watch folder: {folder}");
+                            LogManager.GetCurrentClassLogger().Info($"Watch folder: {folder}");
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                logger.Error($"Error when trying to read folders.config: {e}");
+                LogManager.GetCurrentClassLogger().Error($"Error when trying to read folders.config: {e}");
             }
 
-            logger.Info($"Method has got all the folders to watch: {list.Aggregate("", (accumulate, current) => $"{accumulate},{current}")}");
+            LogManager.GetCurrentClassLogger().Info("Method has got all the folders to watch");
             return list;
         }
     }

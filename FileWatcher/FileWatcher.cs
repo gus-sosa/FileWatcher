@@ -1,5 +1,4 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,26 +7,23 @@ namespace FileWatcher
 {
     internal class FileWatcher
     {
-        public FileWatcher(IEnumerable<string> folders, ILogger logger)
+        public FileWatcher(IEnumerable<string> folders)
         {
-            //TODO: LOG: Building service and serialize list of folders
-            Logger = logger;
-            logger.Info($"Building service with list of folders: {folders.Aggregate("", (acumulate, current) => $"{acumulate},{current}")}");
+            this.Log().Info($"Building service with list of folders: {folders.Aggregate("", (acumulate, current) => $"{acumulate},{current}")}");
             folders = folders?.Where(f => Directory.Exists(f));
             if (folders == null || folders.Count() == 0)
                 throw new InvalidOperationException("There are no folders to watch");
 
             Folders = folders;
-            logger.Info("Service built successfully");
+            this.Log().Info("Service built successfully");
         }
 
         internal IList<FileSystemWatcher> FileSystemWatcher { get; private set; } = new List<FileSystemWatcher>();
         internal IEnumerable<string> Folders { get; private set; }
-        internal ILogger Logger;
 
         public void Start()
         {
-            Logger.Info("Starting service");
+            this.Log().Info("Starting service");
             foreach (string folderDir in Folders)
             {
                 var fw = new FileSystemWatcher();
@@ -47,12 +43,12 @@ namespace FileWatcher
 
                 FileSystemWatcher.Add(fw);
             }
-            Logger.Info("Service started successfully");
+            this.Log().Info("Service started successfully");
         }
 
         internal bool Stop()
         {
-            Logger.Info("Stopping service");
+            this.Log().Info("Stopping service");
             try
             {
                 foreach (var fw in FileSystemWatcher)
@@ -60,10 +56,10 @@ namespace FileWatcher
             }
             catch (Exception e)
             {
-                Logger.Error($"Error stopping service: {e}");
+                this.Log().Error($"Error stopping service: {e}");
                 return false;
             }
-            Logger.Info("Service stopped successfully");
+            this.Log().Info("Service stopped successfully");
             return true;
         }
 
@@ -73,7 +69,7 @@ namespace FileWatcher
 
         public void NotifyChanges(string folderdir)
         {
-            Logger.Info($"Notifying: {folderdir}");
+            this.Log().Info($"Notifying: {folderdir}");
             throw new NotImplementedException();
         }
     }
