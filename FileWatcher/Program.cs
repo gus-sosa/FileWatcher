@@ -1,7 +1,9 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Topshelf;
+using System.Linq;
 
 namespace FileWatcher
 {
@@ -9,34 +11,39 @@ namespace FileWatcher
     {
         static void Main(string[] args)
         {
-            HostFactory.Run(x =>
+            LoggingExtensions.Logging.Log.InitializeWith<LoggingExtensions.NLog.NLogLog>();
+            try
             {
-                //TODO: LOG: Log whatever error the service throws
-
-                x.Service<FileFatcher>(s =>
+                HostFactory.Run(x =>
                 {
-                    s.ConstructUsing(name => new FileFatcher(GetFolders()));
-                    s.WhenStarted(fw => fw.Start());
-                    s.WhenStopped(fw => fw.Stop());
-                });
-                x.RunAsLocalSystem();
+                    x.Service<FileWatcher>(s =>
+                    {
+                        s.ConstructUsing(name => new FileWatcher(GetFolders()));
+                        s.WhenStarted(fw => fw.Start());
+                        s.WhenStopped(fw => fw.Stop());
+                    });
+                    x.RunAsLocalSystem();
 
-                x.SetDescription("Program to watch file changes in a folder");
-                x.SetDisplayName("FileWatcher");
-                x.SetServiceName("FileWatcher");
-            });
+                    x.SetDescription("Program to watch file changes in a folder");
+                    x.SetDisplayName("FileWatcher");
+                    x.SetServiceName("FileWatcher");
+                });
+            }
+            catch (Exception e)
+            {
+                LogManager.GetCurrentClassLogger().Error(e);
+            }
         }
 
         private static IEnumerable<string> GetFolders()
         {
-            //TODO: LOG: Getting folders to watch
-
+            LogManager.GetCurrentClassLogger().Info("Getting folders to watch");
             var list = new List<string>();
             try
             {
                 using (var file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "folders.config", FileMode.Open))
                 {
-                    //TODO: LOG: File opened
+                    LogManager.GetCurrentClassLogger().Info("folders.config opened");
                     using (var reader = new StreamReader(file))
                     {
                         while (true)
@@ -45,15 +52,17 @@ namespace FileWatcher
                             if (string.IsNullOrEmpty(folder))
                                 break;
                             list.Add(folder);
+                            LogManager.GetCurrentClassLogger().Info($"Watch folder: {folder}");
                         }
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                //TODO: Log error
+                LogManager.GetCurrentClassLogger().Error($"Error when trying to read folders.config: {e}");
             }
 
+            LogManager.GetCurrentClassLogger().Info("Method has got all the folders to watch");
             return list;
         }
     }

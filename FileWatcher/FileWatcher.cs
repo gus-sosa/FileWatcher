@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace FileWatcher
 {
-    internal class FileFatcher
+    internal class FileWatcher
     {
-        public FileFatcher(IEnumerable<string> folders)
+        public FileWatcher(IEnumerable<string> folders)
         {
-            //TODO: LOG: Building service and serialize list of folders
+            this.Log().Info($"Building service with list of folders: {folders.Aggregate("", (acumulate, current) => $"{acumulate},{current}")}");
             folders = folders?.Where(f => Directory.Exists(f));
             if (folders == null || folders.Count() == 0)
                 throw new InvalidOperationException("There are no folders to watch");
 
             Folders = folders;
-            //TODO: LOG: Service builded successfully
+            this.Log().Info("Service built successfully");
         }
 
         internal IList<FileSystemWatcher> FileSystemWatcher { get; private set; } = new List<FileSystemWatcher>();
@@ -23,7 +23,7 @@ namespace FileWatcher
 
         public void Start()
         {
-            //TODO: LOG: Starting service
+            this.Log().Info("Starting service");
             foreach (string folderDir in Folders)
             {
                 var fw = new FileSystemWatcher();
@@ -43,22 +43,23 @@ namespace FileWatcher
 
                 FileSystemWatcher.Add(fw);
             }
-            //TODO: LOG: Service started successfully
+            this.Log().Info("Service started successfully");
         }
 
         internal bool Stop()
         {
-            //TODO: LOG: Stopping service
+            this.Log().Info("Stopping service");
             try
             {
                 foreach (var fw in FileSystemWatcher)
                     fw.EnableRaisingEvents = false;
             }
-            catch
+            catch (Exception e)
             {
+                this.Log().Error($"Error stopping service: {e}");
                 return false;
             }
-            //TODO: LOG: Service stopped
+            this.Log().Info("Service stopped successfully");
             return true;
         }
 
@@ -68,7 +69,7 @@ namespace FileWatcher
 
         public void NotifyChanges(string folderdir)
         {
-            //TODO: LOG: Log notification and path of the folder
+            this.Log().Info($"Notifying: {folderdir}");
             throw new NotImplementedException();
         }
     }
