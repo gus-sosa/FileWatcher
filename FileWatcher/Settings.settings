@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FileWatcher" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Description" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Program to watch file changes in a folder</Value>
+    </Setting>
+    <Setting Name="DisplayName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileWatcher</Value>
+    </Setting>
+    <Setting Name="ServiceName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FileWatcher</Value>
+    </Setting>
+    <Setting Name="NameFoldersConfigFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">folders.config</Value>
+    </Setting>
+    <Setting Name="ApplicationToastId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">File Watcher</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
