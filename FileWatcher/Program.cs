@@ -25,10 +25,9 @@ namespace FileWatcher
                     });
                     x.RunAsLocalSystem();
 
-                    //TODO: Put in a setting files these values
-                    x.SetDescription("Program to watch file changes in a folder");
-                    x.SetDisplayName("FileWatcher");
-                    x.SetServiceName("FileWatcher");
+                    x.SetDescription(Settings.Default.Description);
+                    x.SetDisplayName(Settings.Default.DisplayName);
+                    x.SetServiceName(Settings.Default.ServiceName);
                 });
             }
             catch (Exception e)
@@ -41,11 +40,12 @@ namespace FileWatcher
         {
             LogManager.GetCurrentClassLogger().Info("Getting folders to watch");
             var list = new List<string>();
+            string folderConfig = Settings.Default.NameFoldersConfigFile;
             try
             {
-                using (var file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "folders.config", FileMode.Open))
+                using (var file = new FileStream(AppDomain.CurrentDomain.BaseDirectory + folderConfig, FileMode.Open))
                 {
-                    LogManager.GetCurrentClassLogger().Info("folders.config opened");
+                    LogManager.GetCurrentClassLogger().Info($"{folderConfig} opened");
                     using (var reader = new StreamReader(file))
                     {
                         while (true)
@@ -61,7 +61,7 @@ namespace FileWatcher
             }
             catch (Exception e)
             {
-                LogManager.GetCurrentClassLogger().Error($"Error when trying to read folders.config: {e}");
+                LogManager.GetCurrentClassLogger().Error($"Error when trying to read {folderConfig}: {e}");
             }
 
             LogManager.GetCurrentClassLogger().Info("Method has got all the folders to watch");

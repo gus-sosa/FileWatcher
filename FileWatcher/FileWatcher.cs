@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Windows.UI.Notifications;
-using Microsoft.Toolkit.Uwp.Notifications; // Notifications library
+using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.Data.Xml.Dom;
 
 namespace FileWatcher
@@ -93,8 +93,7 @@ namespace FileWatcher
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(toastContent.GetContent());
             var toastNotification = new ToastNotification(xmlDoc);
-            //TODO: Create a configuration file for the application and put the name of the application in a setting
-            ToastNotificationManager.CreateToastNotifier("File Watcher").Show(toastNotification);
+            ToastNotificationManager.CreateToastNotifier(Settings.Default.ApplicationToastId).Show(toastNotification);
         }
     }
 }
