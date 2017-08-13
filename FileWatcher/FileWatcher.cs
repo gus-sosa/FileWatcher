@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using Windows.UI.Notifications;
+using Microsoft.Toolkit.Uwp.Notifications; // Notifications library
+using Microsoft.QueryStringDotNET; // QueryString.NET
+using Windows.Data.Xml.Dom;
+
 namespace FileWatcher
 {
     internal class FileWatcher
@@ -36,9 +41,6 @@ namespace FileWatcher
                 fw.Filter = "*.*";
                 var notifyChanges = new FileSystemEventHandler(NotifyChanges);
                 fw.Changed += notifyChanges;
-                fw.Deleted += notifyChanges;
-                fw.Renamed += Renamed; ;
-                fw.Changed += notifyChanges;
                 fw.EnableRaisingEvents = true;
 
                 FileSystemWatcher.Add(fw);
@@ -63,14 +65,38 @@ namespace FileWatcher
             return true;
         }
 
-        private void Renamed(object sender, RenamedEventArgs e) => NotifyChanges(Path.GetPathRoot(e.FullPath));
+        private void Renamed(object sender, RenamedEventArgs e) => NotifyChanges(Path.GetDirectoryName(e.FullPath));
 
-        private void NotifyChanges(object sender, FileSystemEventArgs e) => NotifyChanges(Path.GetPathRoot(e.FullPath));
+        private void NotifyChanges(object sender, FileSystemEventArgs e) => NotifyChanges(Path.GetDirectoryName(e.FullPath));
 
         public void NotifyChanges(string folderdir)
         {
             this.Log().Info($"Notifying: {folderdir}");
-            throw new NotImplementedException();
+            var visual = new ToastVisual()
+            {
+                BindingGeneric = new ToastBindingGeneric()
+                {
+                    Children =
+                    {
+                        //TODO: Internationalization of this title
+                        new AdaptiveText(){ Text="Changes in folder"},
+                        new AdaptiveText(){ Text=folderdir }
+                    }
+                }
+            };
+
+            var actions = new ToastActionsCustom();
+
+            var toastContent = new ToastContent()
+            {
+                Visual = visual,
+                Actions = actions
+            };
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(toastContent.GetContent());
+            var toastNotification = new ToastNotification(xmlDoc);
+            ToastNotificationManager.CreateToastNotifier("File Watcher").Show(toastNotification);
         }
     }
 }
