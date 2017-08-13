@@ -7,7 +7,6 @@ using Topshelf;
 namespace FileWatcher
 {
     //TODO: Add documentation (in XML document and in GitHub)
-    //TODO: Commenting classes and methods
     class Program
     {
         static void Main(string[] args)
@@ -36,6 +35,15 @@ namespace FileWatcher
             }
         }
 
+        /// <summary>
+        /// Get the paths of folders to watch from the folders config file
+        /// </summary>
+        /// <exception cref="Exception">
+        /// It may throw this exception if it cannot find the folders config file
+        /// </exception>
+        /// <returns>
+        /// List of the paths to watch
+        /// </returns>
         private static IEnumerable<string> GetFolders()
         {
             LogManager.GetCurrentClassLogger().Info("Getting folders to watch");
