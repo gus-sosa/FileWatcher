@@ -11,7 +11,7 @@ namespace FileWatcher
     /// <summary>
     /// Class that creates the logic to watch folders
     /// </summary>
-    internal class FileWatcher
+    public class FileWatcher
     {
         /// <summary>
         /// Builds a new instance of a FileWatcher
@@ -36,12 +36,12 @@ namespace FileWatcher
         /// <summary>
         /// Keeps a list of FileSystemWatcher. One FileSystemWatcher for each folder's path. FileSystemWatcher is the component that reports for changes in a folder.
         /// </summary>
-        internal IList<FileSystemWatcher> FileSystemWatcher { get; private set; } = new List<FileSystemWatcher>();
+        protected IList<FileSystemWatcher> FileSystemWatcher { get; private set; } = new List<FileSystemWatcher>();
 
         /// <summary>
         /// List of folder's path
         /// </summary>
-        internal IEnumerable<string> Folders { get; private set; }
+        protected IEnumerable<string> Folders { get; private set; }
 
         /// <summary>
         /// Starts the service creating FileSystemWatcher for each folder's path, and activates each FileSystemWatcher

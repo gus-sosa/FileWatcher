@@ -6,10 +6,12 @@ using Topshelf;
 
 namespace FileWatcher
 {
-    //TODO: Add documentation (in XML document and in GitHub)
-    class Program
+    /// <summary>
+    /// Start point of the program
+    /// </summary>
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             LoggingExtensions.Logging.Log.InitializeWith<LoggingExtensions.NLog.NLogLog>();
             try
@@ -44,7 +46,7 @@ namespace FileWatcher
         /// <returns>
         /// List of the paths to watch
         /// </returns>
-        private static IEnumerable<string> GetFolders()
+        public static IEnumerable<string> GetFolders()
         {
             LogManager.GetCurrentClassLogger().Info("Getting folders to watch");
             var list = new List<string>();
