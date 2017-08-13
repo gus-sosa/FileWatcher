@@ -6,6 +6,8 @@ using Topshelf;
 
 namespace FileWatcher
 {
+    //TODO: Add documentation (in XML document and in GitHub)
+    //TODO: Commenting classes and methods
     class Program
     {
         static void Main(string[] args)
@@ -23,6 +25,7 @@ namespace FileWatcher
                     });
                     x.RunAsLocalSystem();
 
+                    //TODO: Put in a setting files these values
                     x.SetDescription("Program to watch file changes in a folder");
                     x.SetDisplayName("FileWatcher");
                     x.SetServiceName("FileWatcher");
