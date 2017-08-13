@@ -76,8 +76,7 @@ namespace FileWatcher
                 {
                     Children =
                     {
-                        //TODO: Internationalization of this title
-                        new AdaptiveText(){ Text="Changes in folder"},
+                        new AdaptiveText(){ Text=Resource.Title},
                         new AdaptiveText(){ Text=folderdir }
                     }
                 }
