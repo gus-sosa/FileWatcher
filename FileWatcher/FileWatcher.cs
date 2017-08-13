@@ -12,7 +12,7 @@ namespace FileWatcher
     {
         public FileWatcher(IEnumerable<string> folders)
         {
-            this.Log().Info($"Building service with list of folders: {folders.Aggregate("", (acumulate, current) => $"{acumulate},{current}")}");
+            this.Log().Info($"Building service with list of folders: {folders.Aggregate("", (acumulate, current) => string.IsNullOrEmpty(acumulate) ? current : $"{acumulate},{current}")}");
             folders = folders?.Where(f => Directory.Exists(f));
             if (folders == null || folders.Count() == 0)
                 throw new InvalidOperationException("There are no folders to watch");
