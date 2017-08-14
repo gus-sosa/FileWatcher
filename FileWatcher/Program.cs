@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Topshelf;
+using Hangfire;
+using Hangfire.MemoryStorage;
 
 namespace FileWatcher
 {
@@ -16,13 +18,22 @@ namespace FileWatcher
             LoggingExtensions.Logging.Log.InitializeWith<LoggingExtensions.NLog.NLogLog>();
             try
             {
+                //Setting up HangFire for the task (cleaning the logs)
+                GlobalConfiguration.Configuration.UseMemoryStorage();
+                var hangFireServer = new BackgroundJobServer(new BackgroundJobServerOptions() { WorkerCount = 1 });
+                RecurringJob.AddOrUpdate(() => CleanLogs(), Cron.HourInterval(Settings.Default.HourIntervalToCleanLogs));
+
                 HostFactory.Run(x =>
                 {
                     x.Service<FileWatcher>(s =>
                     {
                         s.ConstructUsing(name => new FileWatcher(GetFolders()));
                         s.WhenStarted(fw => fw.Start());
-                        s.WhenStopped(fw => fw.Stop());
+                        s.WhenStopped(fw =>
+                        {
+                            fw.Stop();
+                            hangFireServer.Dispose();
+                        });
                     });
                     x.RunAsLocalSystem();
 
@@ -35,6 +46,13 @@ namespace FileWatcher
             {
                 LogManager.GetCurrentClassLogger().Error(e);
             }
+        }
+
+        public static void CleanLogs()
+        {
+            var logsFolderDir = Path.GetFullPath(Settings.Default.LogsFolderDir);
+            foreach (string filePath in Directory.EnumerateFiles(logsFolderDir))
+                File.Delete(filePath);
         }
 
         /// <summary>

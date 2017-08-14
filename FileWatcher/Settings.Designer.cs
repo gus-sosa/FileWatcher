@@ -82,5 +82,29 @@ namespace FileWatcher {
                 this["ApplicationToastId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\logs\\")]
+        public string LogsFolderDir {
+            get {
+                return ((string)(this["LogsFolderDir"]));
+            }
+            set {
+                this["LogsFolderDir"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public int HourIntervalToCleanLogs {
+            get {
+                return ((int)(this["HourIntervalToCleanLogs"]));
+            }
+            set {
+                this["HourIntervalToCleanLogs"] = value;
+            }
+        }
     }
 }
