@@ -97,13 +97,13 @@ namespace FileWatcher {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("24")]
-        public int HourIntervalToCleanLogs {
+        [global::System.Configuration.DefaultSettingValueAttribute("1440")]
+        public int MinutesIntervalToCleanLogs {
             get {
-                return ((int)(this["HourIntervalToCleanLogs"]));
+                return ((int)(this["MinutesIntervalToCleanLogs"]));
             }
             set {
-                this["HourIntervalToCleanLogs"] = value;
+                this["MinutesIntervalToCleanLogs"] = value;
             }
         }
     }

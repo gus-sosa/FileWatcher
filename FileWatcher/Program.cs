@@ -21,7 +21,7 @@ namespace FileWatcher
                 //Setting up HangFire for the task (cleaning the logs)
                 GlobalConfiguration.Configuration.UseMemoryStorage();
                 var hangFireServer = new BackgroundJobServer(new BackgroundJobServerOptions() { WorkerCount = 1 });
-                RecurringJob.AddOrUpdate(() => CleanLogs(), Cron.HourInterval(Settings.Default.HourIntervalToCleanLogs));
+                RecurringJob.AddOrUpdate(() => CleanLogs(), Cron.MinuteInterval(Settings.Default.MinutesIntervalToCleanLogs));
 
                 HostFactory.Run(x =>
                 {

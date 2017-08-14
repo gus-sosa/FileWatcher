@@ -20,8 +20,8 @@
     <Setting Name="LogsFolderDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">.\logs\</Value>
     </Setting>
-    <Setting Name="HourIntervalToCleanLogs" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">24</Value>
+    <Setting Name="MinutesIntervalToCleanLogs" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1440</Value>
     </Setting>
   </Settings>
 </SettingsFile>
