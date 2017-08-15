@@ -110,8 +110,27 @@ And the open the FileWatcher.sln with Visual Studio and from there you will be a
 
 ## Configuration
 
-Here you should write what are all of the configurations a user can enter when
-using the project.
+### Adding folders to watch
+
+* Open folders.config in the root folder
+* Add one line per path's folder to watch
+* Restart service
+
+### Upgrade service
+
+You can change the behaivor of the service and/or upgrade it through the parameters in FileWatcher.exe.config. The parameters to change are underneath the section _FileWatcher.Settings_.
+
+The following table explain the meaning of each parameter:
+
+| Parameter | Description |
+| --- | --- |
+| Description | It defines the description to show in the Services list of windows |
+| DisplayName | Name to show in the Services list of Windows |
+| ServiceName | It is the name of the process |
+| NameFoldersConfigFile | It is the name of the file where the path's folders are located. By default: folders.config |
+| ApplicationToastId | Toast Id (Name) to show on the toast notification |
+| LogsFolderDir | Full path of the folder where the logs are going to be located |
+| MinutesIntervalToCleanLogs | Defines the interval time when the task for cleaning logs is going to be executed |
 
 ## Contributing
 
