@@ -1,4 +1,7 @@
 {
   "SizeOfLogFileInMb": 5,
-  "TimeToClearLogsInMinutes": 1
+  "TimeToClearLogsInMinutes": 1,
+  "ServiceDescription": "File Watcher Service",
+  "ServiceDisplayName": "FileWatcherService",
+  "ServiceName": "FileWatcher"
 }
