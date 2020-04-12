@@ -3,5 +3,10 @@
   "TimeToClearLogsInMinutes": 1,
   "ServiceDescription": "File Watcher Service",
   "ServiceDisplayName": "FileWatcherService",
-  "ServiceName": "FileWatcher"
+  "ServiceName": "FileWatcher",
+  "FoldersToWatch": [
+    {
+      "FolderPath": "folder path 1"
+    }
+  ]
 }
