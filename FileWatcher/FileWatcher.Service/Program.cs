@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Topshelf;
+using Topshelf.Runtime.DotNetCore;
 
 namespace FileWatcher.Service {
   class Program {
@@ -24,6 +25,7 @@ namespace FileWatcher.Service {
           x.SetDescription(_appConfig.ServiceDescription);
           x.SetDisplayName(_appConfig.ServiceDisplayName);
           x.SetServiceName(_appConfig.ServiceName);
+          x.UseEnvironmentBuilder(new Topshelf.HostConfigurators.EnvironmentBuilderFactory(c => new DotNetCoreEnvironmentBuilder(c)));
         });
         Environment.ExitCode = (int)Convert.ChangeType(rc, rc.GetTypeCode());
         _logger.Information("finished: starting service");
