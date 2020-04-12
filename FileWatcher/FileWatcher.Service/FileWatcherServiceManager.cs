@@ -1,52 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using FileWatcher.Abstracts.Contracts;
+using FileWatcher.Abstracts.Domain;
 using Newtonsoft.Json;
 using Serilog;
+using FileWatcherProcess = FileWatcher.Core.FileWatcher;
 
 namespace FileWatcher.Service {
   internal class FileWatcherServiceManager {
-    #region domain/business
-    interface IFileWatcher : IDisposable {
-      void Start();
-      void Stop();
-    }
-    class FileWatcher : IFileWatcher {
-      private FolderWatchMetadata _folder;
-
-      public FileWatcher(FolderWatchMetadata folder) {
-        this._folder = folder;
-      }
-
-      public void Dispose() => Stop();
-
-      public void Start() {
-        throw new NotImplementedException();
-      }
-
-      public void Stop() {
-        throw new NotImplementedException();
-      }
-    }
-
-    public class FolderWatchMetadata {
-
-      private string _folderPath = string.Empty;
-      public string FolderPath {
-        get => _folderPath;
-        set {
-          if (Directory.Exists(value)) {
-            _folderPath = value;
-          } else {
-            throw new ApplicationException(string.Format("Folder path does not exist: {0}", value));
-          }
-        }
-      }
-    }
-
-    #endregion
-
     private ILogger logger;
     private AppConfiguration appConfig;
     private IFileWatcher[] fileWatchers;
@@ -74,7 +36,7 @@ namespace FileWatcher.Service {
       var l = new List<IFileWatcher>();
       foreach (var item in foldersToWatch) {
         try {
-          var fw = new FileWatcher(item);
+          var fw = new FileWatcherProcess(item);
           fw.Start();
           l.Add(fw);
         } catch (Exception ex) {

@@ -6,7 +6,7 @@
   "ServiceName": "FileWatcher",
   "FoldersToWatch": [
     {
-      "FolderPath": "folder path 1"
+      "FolderPath": ""
     }
   ]
 }
