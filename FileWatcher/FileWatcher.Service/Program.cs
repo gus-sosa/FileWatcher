@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using FluentScheduler;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Topshelf;
@@ -11,8 +12,8 @@ namespace FileWatcher.Service {
     private static AppConfiguration _appConfig;
 
     static void Main(string[] args) {
-      _logger = createLogger();
       try {
+        _logger = createLogger();
         _appConfig = getConfiguration();
         _logger.Information("starting: starting service");
         var rc = HostFactory.Run(x => {
