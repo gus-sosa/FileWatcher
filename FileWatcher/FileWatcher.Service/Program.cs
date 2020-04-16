@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
-using FluentScheduler;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Topshelf;
 using Topshelf.Runtime.DotNetCore;
 
 namespace FileWatcher.Service {
-  class Program {
+  static class Program {
     private static ILogger _logger;
     private static AppConfiguration _appConfig;
 

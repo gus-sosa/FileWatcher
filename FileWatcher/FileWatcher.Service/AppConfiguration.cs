@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using System.Collections.Generic;
 
 namespace FileWatcher.Service {
   class AppConfiguration {
@@ -12,6 +9,7 @@ namespace FileWatcher.Service {
     public string ServiceName { get; set; }
 
     public ICollection<FileConfig> FoldersToWatch { get; set; }
+    public string WindowsToastServerPath { get; set; }
 
     public class FileConfig {
       public string FolderPath { get; set; }

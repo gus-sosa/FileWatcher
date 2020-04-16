@@ -4,15 +4,15 @@ using System.Linq;
 using FileWatcher.Abstracts.Contracts;
 using FileWatcher.Abstracts.Domain;
 using FileWatcher.Core;
-using FileWatcher.Core.WinToastNotification;
+using FileWatcher.Core.MsgConsumers.WinToastNotification;
 using Newtonsoft.Json;
 using Serilog;
 using FileWatcherProcess = FileWatcher.Core.FileWatcher;
 
 namespace FileWatcher.Service {
   internal class FileWatcherServiceManager {
-    private ILogger logger;
-    private AppConfiguration appConfig;
+    private readonly ILogger logger;
+    private readonly AppConfiguration appConfig;
     private IDispatcher dispatcher;
     private IFileWatcher[] fileWatchers;
 
@@ -26,26 +26,25 @@ namespace FileWatcher.Service {
       List<FolderWatchMetadata> foldersToWatch = getFoldersToWatch();
       logger.Information("List of folders that application is going to watch: {0}", foldersToWatch.Select(i => i.FolderPath).ToArray());
       if (foldersToWatch.Count == 0) {
-        throw new ApplicationException("Stopping service since there are no valid folders to watch");
+        throw new FileWatcherException("Stopping service since there are no valid folders to watch");
       }
       dispatcher = buildDispatcher();
       fileWatchers = initializeFileWatchers(foldersToWatch).ToArray();
       logger.Information(string.Format("number of active file watcher: {0}", fileWatchers.Length));
       if (fileWatchers.Length == 0) {
-        throw new ApplicationException("Stopping service since application was not able to initialize any file watcher");
+        throw new FileWatcherException("Stopping service since application was not able to initialize any file watcher");
       }
       logger.Information("finished: service manager creation");
     }
 
     private IDispatcher buildDispatcher() {
       logger.Information("starting: building dispatcher");
-      var dispatcher = new Dispatcher(logger);
-      var winToastNotification = new WinToastNotification();
-      dispatcher
+      var winToastNotification = new WinToastNotification(appConfig.WindowsToastServerPath);
+      var retval = new Dispatcher(logger)
         .RegisterConsumer<NewFileMessage>(winToastNotification)
         .RegisterConsumer<DeleteFileMessage>(winToastNotification);
       logger.Information("finished: building dispatcher");
-      return dispatcher;
+      return retval;
     }
 
     private List<IFileWatcher> initializeFileWatchers(List<FolderWatchMetadata> foldersToWatch) {

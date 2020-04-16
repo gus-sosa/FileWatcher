@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace FileWatcher.Abstracts.Contracts {
   public interface IMesssageConsumer<T> : IDisposable {
-    void ConsumeMessage(T message);
+    Task ConsumeMessage(T message);
   }
 }

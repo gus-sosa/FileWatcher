@@ -1,14 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using FileWatcher.Abstracts.Contracts;
 using FileWatcher.Abstracts.Domain;
 using Serilog;
 
 namespace FileWatcher.Core {
   public class FileWatcher : IFileWatcher {
-    private FolderWatchMetadata _folder;
-    private FileSystemWatcher _watcher;
-    private IDispatcher dispatcher;
+    private readonly FolderWatchMetadata _folder;
+    private readonly FileSystemWatcher _watcher;
+    private readonly IDispatcher dispatcher;
     private readonly ILogger logger;
 
     public FileWatcher(FolderWatchMetadata folder, IDispatcher dispatcher, ILogger logger) {
@@ -31,18 +30,17 @@ namespace FileWatcher.Core {
       return watcher;
     }
 
-    private void newFileDeleted(object sender, FileSystemEventArgs e) => dispatcher.DispatchMessage(createDeleteFileMessageInfo(sender, e));
+    private void newFileDeleted(object sender, FileSystemEventArgs e) => dispatcher.DispatchMessage(createDeleteFileMessageInfo(e));
 
-    private object createDeleteFileMessageInfo(object sender, FileSystemEventArgs e) {
-      return new DeleteFileMessage() {
+    private object createDeleteFileMessageInfo(FileSystemEventArgs e) =>
+      new DeleteFileMessage() {
         FilePath = e.FullPath,
         FileName = e.Name
       };
-    }
 
-    private void newFileCreated(object sender, FileSystemEventArgs e) => dispatcher.DispatchMessage(createNewFileMessageInfo(sender, e));
+    private void newFileCreated(object sender, FileSystemEventArgs e) => dispatcher.DispatchMessage(createNewFileMessageInfo(e));
 
-    private object createNewFileMessageInfo(object sender, FileSystemEventArgs e) =>
+    private object createNewFileMessageInfo(FileSystemEventArgs e) =>
       new NewFileMessage() {
         FilePath = e.FullPath,
         FileName = e.Name
@@ -53,12 +51,8 @@ namespace FileWatcher.Core {
       _watcher.Dispose();
     }
 
-    public void Start() {
-      _watcher.EnableRaisingEvents = true;
-    }
+    public void Start() => _watcher.EnableRaisingEvents = true;
 
-    public void Stop() {
-      _watcher.EnableRaisingEvents = false;
-    }
+    public void Stop() => _watcher.EnableRaisingEvents = false;
   }
 }

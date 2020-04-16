@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using FileWatcher.Abstracts.Contracts;
@@ -12,12 +10,12 @@ using Serilog;
 namespace FileWatcher.Core {
   public class Dispatcher : IDispatcher {
     private const int COOLDOWN_TIME_FOR_THREAD_IN_MS = 3000;
-    private ILogger logger;
-    private Dictionary<Type, List<Action<object>>> consumers = new Dictionary<Type, List<Action<object>>>();
-    private List<Action> consumersToDispose = new List<Action>();
-    private ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
-    private List<Task> workers = new List<Task>();
-    private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+    private readonly ILogger logger;
+    private readonly Dictionary<Type, List<Action<object>>> consumers = new Dictionary<Type, List<Action<object>>>();
+    private readonly List<Action> consumersToDispose = new List<Action>();
+    private readonly ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
+    private readonly List<Task> workers = new List<Task>();
+    private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
     public Dispatcher(ILogger logger, int numWorkers = 1) {
       this.logger = logger;
@@ -78,7 +76,7 @@ namespace FileWatcher.Core {
           consumer.Dispose();
           logger.Information(string.Format("finished: disposing message consumer, {0}", type));
         } catch (Exception ex) {
-          logger.Error("An error occurred when disposing {0}", type);
+          logger.Error("An error occurred when disposing {0}. Error={1}", type, ex.ToString());
         }
       });
     }
@@ -87,11 +85,11 @@ namespace FileWatcher.Core {
       if (!consumers.ContainsKey(messageType)) {
         consumers.Add(messageType, new List<Action<object>>());
       }
-      consumers[messageType].Add((object input) => {
+      consumers[messageType].Add(async (object input) => {
         var json = JsonConvert.SerializeObject(input);
         try {
           logger.Information(string.Format("starting: Processing message: {0}", json));
-          consumer.ConsumeMessage((T)input);
+          await consumer.ConsumeMessage((T)input);
           logger.Information(string.Format("finished: Processing message: {0}", json));
         } catch (Exception ex) {
           logger.Error(string.Format("Error when processing message <<{0}>> with error <<{1}>>", json, ex.ToString()));

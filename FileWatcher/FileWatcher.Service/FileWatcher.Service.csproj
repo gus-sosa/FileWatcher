@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FileWatcher.Core.WinToastNotification\FileWatcher.Core.WinToastNotification.csproj" />
+    <ProjectReference Include="..\FileWatcher.Core.MsgConsumers\WinToastNotification\WinToastNotification.csproj" />
     <ProjectReference Include="..\FileWatcher.Core\FileWatcher.Core.csproj" />
   </ItemGroup>
 

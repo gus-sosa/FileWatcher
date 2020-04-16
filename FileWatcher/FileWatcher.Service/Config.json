@@ -4,9 +4,10 @@
   "ServiceDescription": "File Watcher Service",
   "ServiceDisplayName": "FileWatcherService",
   "ServiceName": "FileWatcher",
+  "WindowsToastServerPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\FileWatcher\\FileWatcher\\FileWatcher.Core.MsgConsumers\\WinToastNotification.Server\\bin\\Debug\\FileWatcher.Core.MsgConsumers.WinToastNotification.Server.exe",
   "FoldersToWatch": [
     {
-      "FolderPath": ""
+      "FolderPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\folder1"
     }
   ]
 }

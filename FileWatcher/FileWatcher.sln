@@ -9,7 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileWatcher.Core", "FileWat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileWatcher.Abstracts", "FileWatcher.Abstracts\FileWatcher.Abstracts.csproj", "{CFB86000-29DF-47C7-A582-F42B1FBB644D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher.Core.WinToastNotification", "FileWatcher.Core.WinToastNotification\FileWatcher.Core.WinToastNotification.csproj", "{F453D92C-AC73-4B51-AA4E-7CB0FF2E11FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinToastNotification", "FileWatcher.Core.MsgConsumers\WinToastNotification\WinToastNotification.csproj", "{F8C0682A-A02C-4691-9333-B17DB85EEA83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileWatcher.Core.MsgConsumers", "FileWatcher.Core.MsgConsumers", "{427851E9-1E22-4D35-B823-976BF6D2AA8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinToastNotification.Server", "FileWatcher.Core.MsgConsumers\WinToastNotification.Server\WinToastNotification.Server.csproj", "{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DF66C87-26B9-4CE2-B881-48733AD6E77E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,13 +38,21 @@ Global
 		{CFB86000-29DF-47C7-A582-F42B1FBB644D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFB86000-29DF-47C7-A582-F42B1FBB644D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFB86000-29DF-47C7-A582-F42B1FBB644D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F453D92C-AC73-4B51-AA4E-7CB0FF2E11FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F453D92C-AC73-4B51-AA4E-7CB0FF2E11FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F453D92C-AC73-4B51-AA4E-7CB0FF2E11FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F453D92C-AC73-4B51-AA4E-7CB0FF2E11FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C0682A-A02C-4691-9333-B17DB85EEA83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8C0682A-A02C-4691-9333-B17DB85EEA83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8C0682A-A02C-4691-9333-B17DB85EEA83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8C0682A-A02C-4691-9333-B17DB85EEA83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8C0682A-A02C-4691-9333-B17DB85EEA83} = {427851E9-1E22-4D35-B823-976BF6D2AA8B}
+		{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03} = {427851E9-1E22-4D35-B823-976BF6D2AA8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0403362-0342-4D63-A982-5455AD166795}
