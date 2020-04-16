@@ -27,7 +27,7 @@ namespace FileWatcher.Core.MsgConsumers.WinToastNotification {
     private void initializeServer() {
       this.serverProcess = new Process();
       serverProcess.StartInfo.FileName = executableServerPath;
-      serverProcess.StartInfo.Arguments = $"serverHost={serverHost} serverPort={serverPort}";
+      serverProcess.StartInfo.Arguments = $"{serverHost} {serverPort}";
 #if DEBUG
       serverProcess.StartInfo.UseShellExecute = true;
 #endif
