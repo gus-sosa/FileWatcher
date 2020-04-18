@@ -8,7 +8,6 @@ using Windows.UI.Notifications;
 using MS.WindowsAPICodePack.Internal;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using System.Diagnostics;
-using Microsoft.WindowsAPICodePack.Shell;
 using System.IO;
 
 namespace FileWatcher.Core.MsgConsumers.WinToastNotification.Server {

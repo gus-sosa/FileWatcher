@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using FileWatcher.Abstracts.Contracts;
 using FileWatcher.Abstracts.Domain;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace FileWatcher.Core {
@@ -11,13 +12,14 @@ namespace FileWatcher.Core {
     private readonly ILogger logger;
 
     public FileWatcher(FolderWatchMetadata folder, IDispatcher dispatcher, ILogger logger) {
+      this.logger = logger;
       this._folder = folder;
       this._watcher = initializeWatcher();
       this.dispatcher = dispatcher;
-      this.logger = logger;
     }
 
     private FileSystemWatcher initializeWatcher() {
+      logger.Information("Starting: setting up FileSystemWatcher");
       var watcher = new FileSystemWatcher();
       watcher.Path = _folder.FolderPath;
       watcher.NotifyFilter = NotifyFilters.LastAccess
@@ -27,10 +29,15 @@ namespace FileWatcher.Core {
       watcher.Filter = "*.*";
       watcher.Created += newFileCreated;
       watcher.Deleted += newFileDeleted;
+      logger.Information("Finished: setting up FileSystemWatcher");
       return watcher;
     }
 
-    private void newFileDeleted(object sender, FileSystemEventArgs e) => dispatcher.DispatchMessage(createDeleteFileMessageInfo(e));
+    private void newFileDeleted(object sender, FileSystemEventArgs e) {
+      var message = createDeleteFileMessageInfo(e);
+      logger.Information(string.Format("File deleted: {0}", JsonConvert.SerializeObject(message)));
+      dispatcher.DispatchMessage(message);
+    }
 
     private object createDeleteFileMessageInfo(FileSystemEventArgs e) =>
       new DeleteFileMessage() {
@@ -38,7 +45,11 @@ namespace FileWatcher.Core {
         FileName = e.Name
       };
 
-    private void newFileCreated(object sender, FileSystemEventArgs e) => dispatcher.DispatchMessage(createNewFileMessageInfo(e));
+    private void newFileCreated(object sender, FileSystemEventArgs e) {
+      var message = createNewFileMessageInfo(e);
+      logger.Information(string.Format("File created: {0}", JsonConvert.SerializeObject(message)));
+      dispatcher.DispatchMessage(message);
+    }
 
     private object createNewFileMessageInfo(FileSystemEventArgs e) =>
       new NewFileMessage() {
@@ -47,12 +58,19 @@ namespace FileWatcher.Core {
       };
 
     public void Dispose() {
+      logger.Information("Disposing FileWatcher");
       Stop();
       _watcher.Dispose();
     }
 
-    public void Start() => _watcher.EnableRaisingEvents = true;
+    public void Start() {
+      logger.Information("Starting FileWatcher");
+      _watcher.EnableRaisingEvents = true;
+    }
 
-    public void Stop() => _watcher.EnableRaisingEvents = false;
+    public void Stop() {
+      logger.Information("Stopping FileWatcher");
+      _watcher.EnableRaisingEvents = false;
+    }
   }
 }
