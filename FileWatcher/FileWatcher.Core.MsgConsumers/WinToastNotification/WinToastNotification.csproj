@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>FileWatcher.Core.MsgConsumers.WinToastNotification</RootNamespace>
+    <AssemblyName>FileWatcher.Core.MsgConsumers.WinToastNotification</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FileWatcher.Abstracts\FileWatcher.Abstracts.csproj" />
+  </ItemGroup>
+
+</Project>

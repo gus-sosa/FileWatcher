@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FileWatcher")]
+[assembly: AssemblyTitle("WinToastNotification.Server")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FileWatcher")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("HP Inc.")]
+[assembly: AssemblyProduct("WinToastNotification.Server")]
+[assembly: AssemblyCopyright("Copyright © HP Inc. 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8a4ede2b-5e66-4988-b7a2-745558e41db9")]
+[assembly: Guid("022db5f1-5a8a-4700-8c6b-1fab8e88fd03")]
 
 // Version information for an assembly consists of the following four values:
 //
