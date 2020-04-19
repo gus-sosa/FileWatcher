@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define USE_PROXY
+
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FileWatcher.Abstracts.Contracts;
@@ -24,7 +26,7 @@ namespace FileWatcher.Core.MsgConsumers.WinToastNotification {
       this.uri = string.Format("http://{0}:{1}", serverHost, serverPort);
       logger.Information($"uri={uri}");
       initializeServer();
-#if DEBUG
+#if DEBUG && USE_PROXY
       var proxy = new ProxyHttpClientFactory();
       FlurlHttp.Configure(settings => {
         settings.HttpClientFactory = proxy;
