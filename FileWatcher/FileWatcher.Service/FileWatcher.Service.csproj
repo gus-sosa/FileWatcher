@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileWatcher.Core.MsgConsumers\EmailNotification\EmailNotification.csproj" />
+    <ProjectReference Include="..\FileWatcher.Core.MsgConsumers\FileLogNotification\FileLogNotification.csproj" />
     <ProjectReference Include="..\FileWatcher.Core.MsgConsumers\WinToastNotification\WinToastNotification.csproj" />
     <ProjectReference Include="..\FileWatcher.Core\FileWatcher.Core.csproj" />
   </ItemGroup>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>FileWatcher.Core.MsgConsumers.FileLogNotification</AssemblyName>
+    <RootNamespace>FileWatcher.Core.MsgConsumers.FileLogNotification</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FileWatcher.Abstracts\FileWatcher.Abstracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -19,6 +19,8 @@
       "Email": "aa2@test.com"
     }
   ],
+  "FileLog_FolderPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\folder1",
+  "FileLog_FileName": "myCustomLog.txt",
   "FoldersToWatch": [
     {
       "FolderPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\folder1"

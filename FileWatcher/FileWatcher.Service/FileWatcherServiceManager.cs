@@ -5,6 +5,7 @@ using FileWatcher.Abstracts.Contracts;
 using FileWatcher.Abstracts.Domain;
 using FileWatcher.Core;
 using FileWatcher.Core.MsgConsumers.EmailNotification;
+using FileWatcher.Core.MsgConsumers.FileLogNotification;
 using FileWatcher.Core.MsgConsumers.WinToastNotification;
 using Newtonsoft.Json;
 using Serilog;
@@ -42,11 +43,14 @@ namespace FileWatcher.Service {
       logger.Information("starting: building dispatcher");
       var winToastNotification = new WinToastNotification(logger, appConfig.WindowsToastServerPath);
       var emailNotification = new EmailNotification(logger, appConfig.EmailServer, appConfig.EmailServerPort, appConfig.EmailFromTitle, appConfig.EmailFromAddress, appConfig.EmailTos.Select(i => (i.Name, i.Email)).ToList());
+      var fileLogNotification = new FileLogNotification(appConfig.FileLog_FolderPath, appConfig.FileLog_FileName);
       var retval = new Dispatcher(logger)
         .RegisterConsumer<NewFileMessage>(winToastNotification)
         .RegisterConsumer<DeleteFileMessage>(winToastNotification)
         .RegisterConsumer<NewFileMessage>(emailNotification)
-        .RegisterConsumer<DeleteFileMessage>(emailNotification);
+        .RegisterConsumer<DeleteFileMessage>(emailNotification)
+        .RegisterConsumer<NewFileMessage>(fileLogNotification)
+        .RegisterConsumer<DeleteFileMessage>(fileLogNotification);
       logger.Information("finished: building dispatcher");
       return retval;
     }

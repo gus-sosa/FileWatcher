@@ -20,7 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailNotification", "FileWatcher.Core.MsgConsumers\EmailNotification\EmailNotification.csproj", "{18008F3B-4797-4E78-9240-CE4DA2592E82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailNotification", "FileWatcher.Core.MsgConsumers\EmailNotification\EmailNotification.csproj", "{18008F3B-4797-4E78-9240-CE4DA2592E82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileLogNotification", "FileWatcher.Core.MsgConsumers\FileLogNotification\FileLogNotification.csproj", "{01A17EBD-B2B7-4270-B726-330123FDBF71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{18008F3B-4797-4E78-9240-CE4DA2592E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18008F3B-4797-4E78-9240-CE4DA2592E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18008F3B-4797-4E78-9240-CE4DA2592E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A17EBD-B2B7-4270-B726-330123FDBF71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A17EBD-B2B7-4270-B726-330123FDBF71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A17EBD-B2B7-4270-B726-330123FDBF71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A17EBD-B2B7-4270-B726-330123FDBF71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{F8C0682A-A02C-4691-9333-B17DB85EEA83} = {427851E9-1E22-4D35-B823-976BF6D2AA8B}
 		{022DB5F1-5A8A-4700-8C6B-1FAB8E88FD03} = {427851E9-1E22-4D35-B823-976BF6D2AA8B}
 		{18008F3B-4797-4E78-9240-CE4DA2592E82} = {427851E9-1E22-4D35-B823-976BF6D2AA8B}
+		{01A17EBD-B2B7-4270-B726-330123FDBF71} = {427851E9-1E22-4D35-B823-976BF6D2AA8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0403362-0342-4D63-A982-5455AD166795}

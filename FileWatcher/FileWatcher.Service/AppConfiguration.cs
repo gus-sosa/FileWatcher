@@ -15,6 +15,8 @@ namespace FileWatcher.Service {
     public string EmailFromTitle { get; set; }
     public string EmailFromAddress { get; set; }
     public ICollection<ToEmail> EmailTos { get; set; }
+    public string FileLog_FolderPath { get; set; }
+    public string FileLog_FileName { get; set; }
 
     public class FileConfig {
       public string FolderPath { get; set; }
