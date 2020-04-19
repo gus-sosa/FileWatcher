@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>FileWatcher.Core.MsgConsumers.WinToastNotification</RootNamespace>
-    <AssemblyName>FileWatcher.Core.MsgConsumers.WinToastNotification</AssemblyName>
+    <AssemblyName>FileWatcher.Core.MsgConsumers.EmailNotification</AssemblyName>
+    <RootNamespace>FileWatcher.Core.MsgConsumers.EmailNotification</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="MailKit" Version="2.6.0" />
     <PackageReference Include="Serilog" Version="2.9.0" />
   </ItemGroup>
 
