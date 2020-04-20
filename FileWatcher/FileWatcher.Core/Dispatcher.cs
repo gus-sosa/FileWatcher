@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FileWatcher.Abstracts.Contracts;
@@ -16,6 +17,7 @@ namespace FileWatcher.Core {
     private readonly ConcurrentQueue<object> queue = new ConcurrentQueue<object>();
     private readonly List<Task> workers = new List<Task>();
     private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+    private List<object> consumerSet = new List<object>();
 
     public Dispatcher(ILogger logger, int numWorkers = 1) {
       this.logger = logger;
@@ -70,15 +72,18 @@ namespace FileWatcher.Core {
     }
 
     private void addConsumerToDispose<T>(IMesssageConsumer<T> consumer, string type) {
-      consumersToDispose.Add(() => {
-        try {
-          logger.Information(string.Format("starting: disposing message consumer, {0}", type));
-          consumer.Dispose();
-          logger.Information(string.Format("finished: disposing message consumer, {0}", type));
-        } catch (Exception ex) {
-          logger.Error("An error occurred when disposing {0}. Error={1}", type, ex.ToString());
-        }
-      });
+      if (consumerSet.All(i => i != consumer)) {
+        consumerSet.Add(consumer);
+        consumersToDispose.Add(() => {
+          try {
+            logger.Information(string.Format("starting: disposing message consumer, {0}", type));
+            consumer.Dispose();
+            logger.Information(string.Format("finished: disposing message consumer, {0}", type));
+          } catch (Exception ex) {
+            logger.Error("An error occurred when disposing {0}. Error={1}", type, ex.ToString());
+          }
+        });
+      }
     }
 
     private void addConsumer<T>(IMesssageConsumer<T> consumer, Type messageType) {
