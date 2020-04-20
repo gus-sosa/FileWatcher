@@ -14,24 +14,39 @@ namespace FileWatcher.Service {
       try {
         _logger = createLogger();
         _appConfig = getConfiguration();
-        _logger.Information("starting: starting service");
-        var rc = HostFactory.Run(x => {
-          x.Service<FileWatcherServiceManager>(s => {
-            s.ConstructUsing(name => new FileWatcherServiceManager(_logger, _appConfig));
-            s.WhenStarted(sm => sm.Start());
-            s.WhenStopped(sm => sm.Stop());
-          });
-          x.RunAsLocalSystem();
-          x.SetDescription(_appConfig.ServiceDescription);
-          x.SetDisplayName(_appConfig.ServiceDisplayName);
-          x.SetServiceName(_appConfig.ServiceName);
-          x.UseEnvironmentBuilder(new Topshelf.HostConfigurators.EnvironmentBuilderFactory(c => new DotNetCoreEnvironmentBuilder(c)));
-        });
-        Environment.ExitCode = (int)Convert.ChangeType(rc, rc.GetTypeCode());
-        _logger.Information("finished: starting service");
+#if SERVICE
+        buildWinService();
+#else
+        buildServiceAndRunAsConsole();
+#endif
       } catch (Exception ex) {
         _logger.Error(ex.ToString());
       }
+    }
+
+    private static void buildServiceAndRunAsConsole() {
+      var service = new FileWatcherServiceManager(_logger,_appConfig);
+      service.Start();
+      Console.ReadLine();
+      service.Stop();
+    }
+
+    private static void buildWinService() {
+      _logger.Information("starting: starting service");
+      var rc = HostFactory.Run(x => {
+        x.Service<FileWatcherServiceManager>(s => {
+          s.ConstructUsing(name => new FileWatcherServiceManager(_logger, _appConfig));
+          s.WhenStarted(sm => sm.Start());
+          s.WhenStopped(sm => sm.Stop());
+        });
+        x.RunAsLocalSystem();
+        x.SetDescription(_appConfig.ServiceDescription);
+        x.SetDisplayName(_appConfig.ServiceDisplayName);
+        x.SetServiceName(_appConfig.ServiceName);
+        x.UseEnvironmentBuilder(new Topshelf.HostConfigurators.EnvironmentBuilderFactory(c => new DotNetCoreEnvironmentBuilder(c)));
+      });
+      Environment.ExitCode = (int)Convert.ChangeType(rc, rc.GetTypeCode());
+      _logger.Information("finished: starting service");
     }
 
     private static ILogger createLogger() => new LoggerConfiguration().WriteTo.Console().CreateLogger();

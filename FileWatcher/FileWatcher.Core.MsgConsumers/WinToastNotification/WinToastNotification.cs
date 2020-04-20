@@ -1,6 +1,4 @@
-﻿//#define USE_PROXY
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using FileWatcher.Abstracts.Contracts;
