@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using Serilog.Events;
 using Topshelf;
 using Topshelf.Runtime.DotNetCore;
 
@@ -9,11 +10,17 @@ namespace FileWatcher.Service {
   static class Program {
     private static ILogger _logger;
     private static AppConfiguration _appConfig;
+    private static string configFilePath;
 
     static void Main(string[] args) {
       try {
-        _logger = createLogger();
+        configFilePath = Path.GetFullPath(".\\Config.json");
         _appConfig = getConfiguration();
+        _logger = createLogger();
+        _logger.Information(string.Format("Configuration file's path to search: {0}", configFilePath));
+        _logger.Information("starting: Parsing configuration");
+        _logger.Information(string.Format("Configuration file's content: {0}", File.ReadAllText(configFilePath)));
+        _logger.Information("finished: Parsing configuration");
 #if SERVICE
         buildWinService();
 #else
@@ -25,7 +32,7 @@ namespace FileWatcher.Service {
     }
 
     private static void buildServiceAndRunAsConsole() {
-      var service = new FileWatcherServiceManager(_logger,_appConfig);
+      var service = new FileWatcherServiceManager(_logger, _appConfig);
       service.Start();
       Console.ReadLine();
       service.Stop();
@@ -49,20 +56,19 @@ namespace FileWatcher.Service {
       _logger.Information("finished: starting service");
     }
 
-    private static ILogger createLogger() => new LoggerConfiguration().WriteTo.Console().CreateLogger();
+    private static ILogger createLogger() => new LoggerConfiguration().WriteTo.
+#if DEBUG
+      Console()
+#endif
+#if RELEASE
+      File(path: ".", restrictedToMinimumLevel: LogEventLevel.Information, rollOnFileSizeLimit: true, fileSizeLimitBytes: 1000 * _appConfig.SizeOfLogFileInMb, retainedFileCountLimit: 10, rollingInterval: RollingInterval.Day, shared: true)
+#endif
+      .CreateLogger();
 
-    private static AppConfiguration getConfiguration() {
-      var configurationFilePath = Path.GetFullPath(".\\Config.json");
-      _logger.Information(string.Format("Configuration file's path to search: {0}", configurationFilePath));
-      _logger.Information("starting: Parsing configuration");
-      var configurationBuilder = new ConfigurationBuilder();
-      var retval = configurationBuilder
-        .AddJsonFile(configurationFilePath, false, false)
+    private static AppConfiguration getConfiguration() =>
+      new ConfigurationBuilder()
+        .AddJsonFile(Path.GetFullPath(".\\Config.json"), false, false)
         .Build()
         .Get<AppConfiguration>();
-      _logger.Information(string.Format("Configuration file's content: {0}", File.ReadAllText(configurationFilePath)));
-      _logger.Information("finished: Parsing configuration");
-      return retval;
-    }
   }
 }
