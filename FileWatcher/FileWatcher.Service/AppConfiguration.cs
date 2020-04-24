@@ -10,9 +10,21 @@ namespace FileWatcher.Service {
 
     public ICollection<FileConfig> FoldersToWatch { get; set; }
     public string WindowsToastServerPath { get; set; }
+    public string EmailServer { get; set; }
+    public int EmailServerPort { get; set; }
+    public string EmailFromTitle { get; set; }
+    public string EmailFromAddress { get; set; }
+    public ICollection<ToEmail> EmailTos { get; set; }
+    public string FileLog_FolderPath { get; set; }
+    public string FileLog_FileName { get; set; }
 
     public class FileConfig {
       public string FolderPath { get; set; }
+    }
+
+    public class ToEmail {
+      public string Name { get; set; }
+      public string Email { get; set; }
     }
   }
 }

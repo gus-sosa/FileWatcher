@@ -5,6 +5,22 @@
   "ServiceDisplayName": "FileWatcherService",
   "ServiceName": "FileWatcher",
   "WindowsToastServerPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\FileWatcher\\FileWatcher\\FileWatcher.Core.MsgConsumers\\WinToastNotification.Server\\bin\\Debug\\FileWatcher.Core.MsgConsumers.WinToastNotification.Server.exe",
+  "EmailServer": "localhost",
+  "EmailServerPort": 9588,
+  "EmailFromTitle": "Gus",
+  "EmailFromAddress": "aa@test.com",
+  "EmailTos": [
+    {
+      "Name": "Gus1",
+      "Email": "aa1@test.com"
+    },
+    {
+      "Name": "Gus2",
+      "Email": "aa2@test.com"
+    }
+  ],
+  "FileLog_FolderPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\folder1",
+  "FileLog_FileName": "myCustomLog.txt",
   "FoldersToWatch": [
     {
       "FolderPath": "C:\\Users\\Gus\\Documents\\Projects\\FileWatcher\\folder1"
