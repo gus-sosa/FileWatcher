@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FileWatcher.Abstracts" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Serilog" Version="2.9.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\FileWatcher.Abstracts\FileWatcher.Abstracts.csproj" />
-  </ItemGroup>
-
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy
+      SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+      DestinationFolder="$(SolutionDir)packages\"
+    />
+  </Target>
 </Project>

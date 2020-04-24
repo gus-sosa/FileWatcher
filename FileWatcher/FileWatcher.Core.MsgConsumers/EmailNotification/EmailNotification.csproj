@@ -1,18 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>FileWatcher.Core.MsgConsumers.EmailNotification</AssemblyName>
     <RootNamespace>FileWatcher.Core.MsgConsumers.EmailNotification</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FileWatcher.Abstracts" Version="1.0.0" />
     <PackageReference Include="MailKit" Version="2.6.0" />
     <PackageReference Include="Serilog" Version="2.9.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\FileWatcher.Abstracts\FileWatcher.Abstracts.csproj" />
-  </ItemGroup>
-
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)packages\" />
+  </Target>
 </Project>
